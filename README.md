@@ -1,2 +1,4 @@
 # smart-combin.NET
-Get elements and generate all the possible combinations with they
+Get elements and generate all the possible combinations with they  
+
+Thanks
