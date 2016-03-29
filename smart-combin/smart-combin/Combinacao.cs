@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace smart_combin
 {
     public class Combinacao
     {
-        private int r;
-        private string[] entrada;
-        private int MAX;
-        private int N;
+        private readonly int _tamanhoGrupo;
+        private readonly string[] _itensEntrada;
+        private readonly BigInteger _maximo;
+        private int _N = 1;
 
         /// <summary>
         /// Se r é zero então iremos fazer todas as combinações (com qualquer quantidade de elementos).
         /// </summary>
-        /// <param name="entrada"></param>
-        /// <param name="r"></param>
-        public Combinacao(string[] entrada, int r)
+        /// <param name="itensEntrada"></param>
+        /// <param name="tamanhoGrupo"></param>
+        public Combinacao(string[] itensEntrada, int tamanhoGrupo)
         {
-            this.r = r;
-            this.entrada = entrada;
-            this.MAX = ~(1 << entrada.Length);
-            this.N = 1;
+            _tamanhoGrupo = tamanhoGrupo;
+            _itensEntrada = itensEntrada;
+            _maximo = ~(1 << itensEntrada.Length);
         }
 
         /// <summary>
@@ -32,14 +27,15 @@ namespace smart_combin
         /// <returns></returns>
         public bool HasNext()
         {
-            if (this.r != 0)
+            if (_tamanhoGrupo != 0)
             {
-                while (((this.N & this.MAX) != 0) && (CountBits() != this.r))
+                while (((_N & _maximo) != 0) && (CountBits() != _tamanhoGrupo))
                 {
-                    this.N += 1;
+                    _N += 1;
                 }
             }
-            return (this.N & this.MAX) != 0;
+
+            return (_N & _maximo) != 0;
         }
 
         /// <summary>
@@ -52,14 +48,16 @@ namespace smart_combin
             int c;
             i = 1;
             c = 0;
-            while ((this.MAX & i) != 0)
+
+            while ((_maximo & i) != 0)
             {
-                if ((this.N & i) != 0)
+                if ((_N & i) != 0)
                 {
                     c++;
                 }
                 i = i << 1;
             }
+
             return c;
         }
 
@@ -71,11 +69,12 @@ namespace smart_combin
         {
             get
             {
-                if (this.r != 0)
+                if (_tamanhoGrupo != 0)
                 {
-                    return this.r;
+                    return _tamanhoGrupo;
                 }
-                return this.CountBits();
+
+                return CountBits();
             }
         }
 
@@ -89,24 +88,24 @@ namespace smart_combin
         {
             int saida_index, entrada_index, i;
 
-            string[] saida = new string[this.SaidaLength];
+            string[] saida = new string[SaidaLength];
 
             entrada_index = 0;
             saida_index = 0;
             i = 1;
 
-            while ((this.MAX & i) != 0)
+            while ((_maximo & i) != 0)
             {
-                if ((this.N & i) != 0)
+                if ((_N & i) != 0)
                 {
-                    saida[saida_index] = entrada[entrada_index];
+                    saida[saida_index] = _itensEntrada[entrada_index];
                     saida_index += 1;
                 }
                 entrada_index += 1;
                 i = i << 1;
             }
 
-            this.N += 1;
+            _N += 1;
 
             return saida;
         }
