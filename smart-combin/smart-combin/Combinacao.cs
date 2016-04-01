@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace smart_combin
 {
@@ -18,7 +19,7 @@ namespace smart_combin
         {
             _tamanhoGrupo = tamanhoGrupo;
             _itensEntrada = itensEntrada;
-            _maximo = ~(1 << itensEntrada.Length);
+            _maximo = ~((BigInteger)Math.Pow(2, itensEntrada.Length));
         }
 
         /// <summary>
