@@ -40,15 +40,44 @@ namespace smart_combin
         }
 
         /// <summary>
+        /// Retorna uma combinação.
+        /// ATENÇÃO: Sempre use next() quando se tem certeza que há uma combinação disponível.
+        /// Ou seja, sempre use next() quando hasNext() retornar true.
+        /// </summary>
+        /// <returns></returns>
+        public string[] Next()
+        {
+            int saida_index = 0;
+            int entrada_index = 0;
+            int i = 1;
+            string[] saida = new string[SaidaLength];
+
+            while ((_maximo & i) != 0)
+            {
+                if ((_N & i) != 0)
+                {
+                    saida[saida_index] = _itensEntrada[entrada_index];
+                    saida_index += 1;
+                }
+
+                entrada_index += 1;
+
+                i = i << 1;
+            }
+
+            _N += 1;
+
+            return saida;
+        }
+
+        /// <summary>
         /// Retorna a quantidade de bits ativos (= 1) de N.
         /// </summary>
         /// <returns></returns>
         private int CountBits()
         {
-            int i;
-            int c;
-            i = 1;
-            c = 0;
+            int i = 1;
+            int c = 0;
 
             while ((_maximo & i) != 0)
             {
@@ -56,6 +85,7 @@ namespace smart_combin
                 {
                     c++;
                 }
+
                 i = i << 1;
             }
 
@@ -77,38 +107,6 @@ namespace smart_combin
 
                 return CountBits();
             }
-        }
-
-        /// <summary>
-        /// Retorna uma combinação.
-        /// ATENÇÃO: Sempre use next() quando se tem certeza que há uma combinação disponível.
-        /// Ou seja, sempre use next() quando hasNext() retornar true.
-        /// </summary>
-        /// <returns></returns>
-        public string[] Next()
-        {
-            int saida_index, entrada_index, i;
-
-            string[] saida = new string[SaidaLength];
-
-            entrada_index = 0;
-            saida_index = 0;
-            i = 1;
-
-            while ((_maximo & i) != 0)
-            {
-                if ((_N & i) != 0)
-                {
-                    saida[saida_index] = _itensEntrada[entrada_index];
-                    saida_index += 1;
-                }
-                entrada_index += 1;
-                i = i << 1;
-            }
-
-            _N += 1;
-
-            return saida;
         }
     }
 }
